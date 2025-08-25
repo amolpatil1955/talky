@@ -4,6 +4,8 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import axios from "axios";
+
 
 import authRoutes from "./src/routes/auth.route.js";
 import userRoutes from "./src/routes/user.route.js";
@@ -39,6 +41,11 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
   });
 }
+
+export const axiosInstance = axios.create({
+  baseURL: process.env.VITE_API_URL || "https://talky-4.onrender.com/api",
+  withCredentials: true, // agar cookies/session auth use ho raha hai
+});
 
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);

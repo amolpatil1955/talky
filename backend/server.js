@@ -34,8 +34,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-app.use(express.static(path.join(__dirname, "frontend/dist")));
-res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
+app.use(express.static(path.join(__dirname, "frontend", "dist")));
+
 
 
 app.listen(PORT, () => {

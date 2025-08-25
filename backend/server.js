@@ -15,10 +15,15 @@ const PORT = process.env.PORT;
 
 const __dirname = path.resolve();
 
+const allowedOrigins = [
+  "http://localhost:5173",              // local dev
+  "https://talky-3.onrender.com"        // your render domain
+];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, // allow frontend to send cookies
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
@@ -29,13 +34,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
